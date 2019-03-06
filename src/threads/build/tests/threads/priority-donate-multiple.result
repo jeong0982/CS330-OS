@@ -1,12 +1,32 @@
 FAIL
-Kernel panic in run: PANIC at ../../lib/kernel/list.c:290 in list_front(): assertion `!list_empty (list)' failed.
-Call stack: 0xc0107199 0xc0107e6c 0xc0107e87 0xc010251e 0xc010274f 0xc0100da1 0xc0101054 0xc01002ff
-Translation of call stack:
-0xc0107199: debug_panic (.../../lib/kernel/debug.c:34)
-0xc0107e6c: list_front (.../../lib/kernel/list.c:290)
-0xc0107e87: list_pop_front (.../../lib/kernel/list.c:270)
-0xc010251e: sema_up (...../../threads/synch.c:124)
-0xc010274f: lock_release (...../../threads/synch.c:243)
-0xc0100da1: allocate_tid (..../../threads/thread.c:567)
-0xc0101054: thread_init (..../../threads/thread.c:103)
-0xc01002ff: main (...d/../../threads/init.c:80)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (priority-donate-multiple) begin
+  (priority-donate-multiple) Main thread should have priority 32.  Actual priority: 32.
+  (priority-donate-multiple) Main thread should have priority 33.  Actual priority: 33.
+  (priority-donate-multiple) Thread b acquired lock b.
+  (priority-donate-multiple) Thread b finished.
+  (priority-donate-multiple) Thread b should have just finished.
+  (priority-donate-multiple) Main thread should have priority 32.  Actual priority: 32.
+  (priority-donate-multiple) Thread a acquired lock a.
+  (priority-donate-multiple) Thread a finished.
+  (priority-donate-multiple) Thread a should have just finished.
+  (priority-donate-multiple) Main thread should have priority 31.  Actual priority: 31.
+  (priority-donate-multiple) end
+Differences in `diff -u' format:
+  (priority-donate-multiple) begin
+- (priority-donate-multiple) Main thread should have priority 32.  Actual priority: 32.
+- (priority-donate-multiple) Main thread should have priority 33.  Actual priority: 33.
++ (priority-donate-multiple) Main thread should have priority 32.  Actual priority: 31.
++ (priority-donate-multiple) Main thread should have priority 33.  Actual priority: 31.
+  (priority-donate-multiple) Thread b acquired lock b.
+  (priority-donate-multiple) Thread b finished.
+  (priority-donate-multiple) Thread b should have just finished.
+- (priority-donate-multiple) Main thread should have priority 32.  Actual priority: 32.
++ (priority-donate-multiple) Main thread should have priority 32.  Actual priority: 31.
+  (priority-donate-multiple) Thread a acquired lock a.
+  (priority-donate-multiple) Thread a finished.
+  (priority-donate-multiple) Thread a should have just finished.
+  (priority-donate-multiple) Main thread should have priority 31.  Actual priority: 31.
+  (priority-donate-multiple) end

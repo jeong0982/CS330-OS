@@ -1,4 +1,4 @@
-Writing command line to /tmp/w_psJlXhW0.dsk...
+Writing command line to /tmp/SgnIAfHEqG.dsk...
 squish-pty bochs -q
 ========================================================================
                        Bochs x86 Emulator 2.6.2
@@ -6,13 +6,18 @@ squish-pty bochs -q
                   Compiled on Mar  5 2019 at 16:26:03
 ========================================================================
 Kernel command line: -q run alarm-negative
-Kernel PANIC at ../../lib/kernel/list.c:290 in list_front(): assertion `!list_empty (list)' failed.
-Call stack: 0xc0107199 0xc0107e6c 0xc0107e87 0xc010251e 0xc010274f 0xc0100da1 0xc0101054 0xc01002ff.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 0 ticks
-Thread: 0 idle ticks, 0 kernel ticks, 0 user ticks
-Console: 464 characters output
+Pintos booting with 4,096 kB RAM...
+375 pages available in kernel pool.
+374 pages available in user pool.
+Calibrating timer...  204,600 loops/s.
+Boot complete.
+Executing 'alarm-negative':
+(alarm-negative) begin
+(alarm-negative) PASS
+(alarm-negative) end
+Execution of 'alarm-negative' complete.
+Timer: 39 ticks
+Thread: 1 idle ticks, 41 kernel ticks, 0 user ticks
+Console: 405 characters output
 Keyboard: 0 keys pressed
 Powering off...
