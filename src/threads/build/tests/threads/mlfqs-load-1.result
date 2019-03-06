@@ -1,10 +1,12 @@
 FAIL
-Kernel panic in run: PANIC at ../../tests/threads/tests.c:93 in fail(): test failed
-Call stack: 0xc01070c9 0xc0108fb5 0xc010ad7a 0xc0108ffb 0xc01000a0 0xc0100641
+Kernel panic in run: PANIC at ../../lib/kernel/list.c:290 in list_front(): assertion `!list_empty (list)' failed.
+Call stack: 0xc0107199 0xc0107e6c 0xc0107e87 0xc010251e 0xc010274f 0xc0100da1 0xc0101054 0xc01002ff
 Translation of call stack:
-0xc01070c9: debug_panic (.../../lib/kernel/debug.c:34)
-0xc0108fb5: run_test (.../tests/threads/tests.c:48)
-0xc010ad7a: test_mlfqs_load_1 (...threads/mlfqs-load-1.c:41)
-0xc0108ffb: run_test (.../tests/threads/tests.c:57)
-0xc01000a0: run_task (.../../../threads/init.c:270)
-0xc0100641: run_actions (.../../../threads/init.c:319)
+0xc0107199: debug_panic (.../../lib/kernel/debug.c:34)
+0xc0107e6c: list_front (.../../lib/kernel/list.c:290)
+0xc0107e87: list_pop_front (.../../lib/kernel/list.c:270)
+0xc010251e: sema_up (...../../threads/synch.c:124)
+0xc010274f: lock_release (...../../threads/synch.c:243)
+0xc0100da1: allocate_tid (..../../threads/thread.c:567)
+0xc0101054: thread_init (..../../threads/thread.c:103)
+0xc01002ff: main (...d/../../threads/init.c:80)

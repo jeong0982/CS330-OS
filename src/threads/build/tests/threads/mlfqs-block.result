@@ -1,25 +1,12 @@
 FAIL
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (mlfqs-block) begin
-  (mlfqs-block) Main thread acquiring lock.
-  (mlfqs-block) Main thread creating block thread, sleeping 25 seconds...
-  (mlfqs-block) Block thread spinning for 20 seconds...
-  (mlfqs-block) Block thread acquiring lock...
-  (mlfqs-block) Main thread spinning for 5 seconds...
-  (mlfqs-block) Main thread releasing lock.
-  (mlfqs-block) ...got it.
-  (mlfqs-block) Block thread should have already acquired lock.
-  (mlfqs-block) end
-Differences in `diff -u' format:
-  (mlfqs-block) begin
-  (mlfqs-block) Main thread acquiring lock.
-  (mlfqs-block) Main thread creating block thread, sleeping 25 seconds...
-  (mlfqs-block) Block thread spinning for 20 seconds...
-  (mlfqs-block) Block thread acquiring lock...
-  (mlfqs-block) Main thread spinning for 5 seconds...
-  (mlfqs-block) Main thread releasing lock.
-- (mlfqs-block) ...got it.
-  (mlfqs-block) Block thread should have already acquired lock.
-  (mlfqs-block) end
+Kernel panic in run: PANIC at ../../lib/kernel/list.c:290 in list_front(): assertion `!list_empty (list)' failed.
+Call stack: 0xc0107199 0xc0107e6c 0xc0107e87 0xc010251e 0xc010274f 0xc0100da1 0xc0101054 0xc01002ff
+Translation of call stack:
+0xc0107199: debug_panic (.../../lib/kernel/debug.c:34)
+0xc0107e6c: list_front (.../../lib/kernel/list.c:290)
+0xc0107e87: list_pop_front (.../../lib/kernel/list.c:270)
+0xc010251e: sema_up (...../../threads/synch.c:124)
+0xc010274f: lock_release (...../../threads/synch.c:243)
+0xc0100da1: allocate_tid (..../../threads/thread.c:567)
+0xc0101054: thread_init (..../../threads/thread.c:103)
+0xc01002ff: main (...d/../../threads/init.c:80)
