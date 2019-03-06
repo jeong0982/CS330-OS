@@ -63,7 +63,7 @@ bool high_priority(const struct list_elem *a, const struct list_elem *b, void *a
    interrupts disabled, but if it sleeps then the next scheduled
    thread will probably turn interrupts back on. This is
    sema_down function. */
-void
+/*void
 sema_down (struct semaphore *sema) 
 {
   enum intr_level old_level;
@@ -78,6 +78,20 @@ sema_down (struct semaphore *sema)
       thread_block ();
     }
   sema->value--;
+  intr_set_level (old_level);
+}*/
+void
+sema_up (struct semaphore *sema) 
+{
+  enum intr_level old_level;
+
+  ASSERT (sema != NULL);
+
+  old_level = intr_disable ();
+  if (!list_empty (&sema->waiters)) 
+    thread_unblock (list_entry (list_pop_front (&sema->waiters),
+                                struct thread, elem));
+  sema->value++;
   intr_set_level (old_level);
 }
 
@@ -110,7 +124,7 @@ sema_try_down (struct semaphore *sema)
    and wakes up one thread of those waiting for SEMA, if any.
 
    This function may be called from an interrupt handler. */
-void
+/*void
 sema_up (struct semaphore *sema) 
 {
   enum intr_level old_level;
@@ -123,6 +137,20 @@ sema_up (struct semaphore *sema)
 	list_sort(&(sema->waiters), high_priority, NULL);
     thread_unblock (list_entry (list_pop_front (&sema->waiters),
                                 struct thread, elem));
+  intr_set_level (old_level);
+}*/
+void
+sema_up (struct semaphore *sema) 
+{
+  enum intr_level old_level;
+
+  ASSERT (sema != NULL);
+
+  old_level = intr_disable ();
+  if (!list_empty (&sema->waiters)) 
+    thread_unblock (list_entry (list_pop_front (&sema->waiters),
+                                struct thread, elem));
+  sema->value++;
   intr_set_level (old_level);
 }
 
