@@ -81,20 +81,22 @@ sema_down (struct semaphore *sema)
   intr_set_level (old_level);
 }*/
 void
-sema_up (struct semaphore *sema) 
+sema_down (struct semaphore *sema) 
 {
   enum intr_level old_level;
 
   ASSERT (sema != NULL);
+  ASSERT (!intr_context ());
 
   old_level = intr_disable ();
-  if (!list_empty (&sema->waiters)) 
-    thread_unblock (list_entry (list_pop_front (&sema->waiters),
-                                struct thread, elem));
-  sema->value++;
+  while (sema->value == 0) 
+    {
+      list_push_back (&sema->waiters, &thread_current ()->elem);
+      thread_block ();
+    }
+  sema->value--;
   intr_set_level (old_level);
 }
-
 /* Down or "P" operation on a semaphore, but only if the
    semaphore is not already 0.  Returns true if the semaphore is
    decremented, false otherwise.
