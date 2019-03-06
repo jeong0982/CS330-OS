@@ -1,4 +1,4 @@
-Writing command line to /tmp/q5nWSbAj07.dsk...
+Writing command line to /tmp/EMTILFdnP7.dsk...
 squish-pty bochs -q
 ========================================================================
                        Bochs x86 Emulator 2.6.2
@@ -25,4 +25,6 @@ Timer: 101 ticks
 Thread: 0 idle ticks, 104 kernel ticks, 0 user ticks
 Console: 857 characters output
 Keyboard: 0 keys pressed
+(priority-donate-nest) High thread should have just finished.
+(priority-donate-nest) Middle thread finished.
 Powering off...

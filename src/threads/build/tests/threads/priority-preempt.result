@@ -20,4 +20,6 @@ Differences in `diff -u' format:
 - (priority-preempt) Thread high-priority iteration 4
 - (priority-preempt) Thread high-priority done!
   (priority-preempt) The high-priority thread should have already completed.
-  (priority-preempt) end
+- (priority-preempt) end
++ (priority-preempt) end(priority-preempt) Thread high-priority iteration 0
++ 

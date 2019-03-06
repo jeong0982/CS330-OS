@@ -25,6 +25,7 @@ static int64_t ticks;
 static unsigned loops_per_tick;
 
 static intr_handler_func timer_interrupt;
+static struct list alarm_list;
 static bool too_many_loops (unsigned loops);
 static void busy_wait (int64_t loops);
 static void real_time_sleep (int64_t num, int32_t denom);
@@ -43,7 +44,10 @@ timer_init (void)
   outb (0x40, count & 0xff);
   outb (0x40, count >> 8);
 
+  list_init(&alarm_list);
+
   intr_register_ext (0x20, timer_interrupt, "8254 Timer");
+
 }
 
 /* Calibrates loops_per_tick, used to implement brief delays. */
@@ -92,15 +96,42 @@ timer_elapsed (int64_t then)
   return timer_ticks () - then;
 }
 
+bool compare_time(struct list_elem *old, struct list_elem *new)
+{
+	return list_entry(old, struct thread, elem)->alarm_time < list_entry(new, struct thread, elem)->alarm_time;
+}
+
 /* Suspends execution for approximately TICKS timer ticks. */
 void
 timer_sleep (int64_t ticks) 
 {
   int64_t start = timer_ticks ();
+  enum intr_level old_intr;
+  old_intr = intr_disable();
 
-  ASSERT (intr_get_level () == INTR_ON);
-  while (timer_elapsed (start) < ticks) 
-    thread_yield ();
+  struct thread *present = thread_current();
+  present->alarm_time = start + ticks;
+  list_insert_ordered(&alarm_list, &present->elem, compare_time, NULL);
+  thread_block();
+  intr_set_level(old_intr);
+
+  
+}
+
+void timer_wake(void)
+{
+	while(!list_empty(&alarm_list))
+	{
+		struct list_elem *e = list_front(&alarm_list);
+		struct thread *waket = list_entry(e, struct thread, elem);
+		if(ticks >= waket->alarm_time)
+		{
+			list_pop_front(&alarm_list);
+			thread_unblock(waket);
+		}
+		else
+			break;
+	}
 }
 
 /* Suspends execution for approximately MS milliseconds. */
@@ -136,6 +167,7 @@ static void
 timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
+  timer_wake();
   thread_tick ();
 }
 
